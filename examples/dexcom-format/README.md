@@ -1,6 +1,6 @@
 # Dexcom CGM Data Overview
 
-This README provides a summary of the key endpoints from the Dexcom Continuous Glucose Monitoring (CGM) sandbox API: `/egvs` and `/devices`, using the V3 version of the API.
+This README provides a summary of the key endpoints from the Dexcom Continuous Glucose Monitoring (CGM) sandbox API: `/egvs` and `/devices`, using the V3 version of the API. All information was derived from the public documentation provided at the [Dexcom Developer Portal](https://developer.dexcom.com).
 
 ## Table of Contents
 
