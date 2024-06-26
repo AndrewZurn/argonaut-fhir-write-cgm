@@ -1,0 +1,253 @@
+{
+    "recordType": "device",
+    "recordVersion": "3.0",
+    "userId": "1e8862ccb6459b7811197af4533c70253cb50328862de56e7afa2a2ef79bf628",
+    "records": [
+        {
+            "lastUploadDate": "2024-06-26T03:37:08.274Z",
+            "transmitterId": "e08faf468272ab08d197abfa5e42020dd25e6a67f777b60367e8581109b2b9b6",
+            "transmitterGeneration": "g7",
+            "displayDevice": "iOS",
+            "displayApp": "G7",
+            "alertSchedules": [
+                {
+                    "alertScheduleSettings": {
+                        "alertScheduleName": "WeekNight",
+                        "isEnabled": false,
+                        "isDefaultSchedule": false,
+                        "startTime": "20:00",
+                        "endTime": "8:00",
+                        "daysOfWeek": [
+                            "sunday",
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday"
+                        ],
+                        "isActive": true,
+                        "override": {
+                            "isOverrideEnabled": false,
+                            "mode": "quiet",
+                            "endTime": "2023-08-16 02:40:18.000+0000"
+                        }
+                    },
+                    "alertSettings": [
+                        {
+                            "alertName": "rise",
+                            "value": 3,
+                            "unit": "mg/dL/min",
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "unknown"
+                        },
+                        {
+                            "alertName": "urgentLowSoon",
+                            "value": 55,
+                            "unit": "mg/dL",
+                            "snooze": 30,
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "sound"
+                        },
+                        {
+                            "alertName": "outOfRange",
+                            "value": 60,
+                            "unit": "minutes",
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "vibrate"
+                        },
+                        {
+                            "alertName": "high",
+                            "value": 130,
+                            "unit": "mg/dL",
+                            "snooze": 0,
+                            "enabled": true,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "delay": 0,
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "vibrate"
+                        },
+                        {
+                            "alertName": "fall",
+                            "value": 3,
+                            "unit": "mg/dL/min",
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "vibrate"
+                        },
+                        {
+                            "alertName": "urgentLow",
+                            "value": 55,
+                            "unit": "mg/dL",
+                            "snooze": 28,
+                            "enabled": true,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "vibrate"
+                        },
+                        {
+                            "alertName": "low",
+                            "value": 90,
+                            "unit": "mg/dL",
+                            "snooze": 0,
+                            "enabled": true,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "vibrate"
+                        },
+                        {
+                            "alertName": "noReadings",
+                            "value": 20,
+                            "unit": "minutes",
+                            "snooze": 20,
+                            "enabled": true,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "alertScheduleSettings": {
+                        "alertScheduleName": "",
+                        "isEnabled": false,
+                        "isDefaultSchedule": true,
+                        "startTime": "0:00",
+                        "endTime": "0:00",
+                        "daysOfWeek": [
+                            "sunday",
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday",
+                            "saturday"
+                        ],
+                        "isActive": false,
+                        "override": {
+                            "isOverrideEnabled": false,
+                            "mode": "quiet",
+                            "endTime": "2023-08-16 02:40:18.000+0000"
+                        }
+                    },
+                    "alertSettings": [
+                        {
+                            "alertName": "rise",
+                            "value": 3,
+                            "unit": "mg/dL/min",
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "sound"
+                        },
+                        {
+                            "alertName": "urgentLowSoon",
+                            "value": 55,
+                            "unit": "mg/dL",
+                            "snooze": 30,
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "sound"
+                        },
+                        {
+                            "alertName": "outOfRange",
+                            "value": 60,
+                            "unit": "minutes",
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "sound"
+                        },
+                        {
+                            "alertName": "high",
+                            "value": 250,
+                            "unit": "mg/dL",
+                            "snooze": 0,
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "delay": 0,
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "sound"
+                        },
+                        {
+                            "alertName": "fall",
+                            "value": 3,
+                            "unit": "mg/dL/min",
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "unknown"
+                        },
+                        {
+                            "alertName": "urgentLow",
+                            "value": 55,
+                            "unit": "mg/dL",
+                            "snooze": 28,
+                            "enabled": true,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "sound"
+                        },
+                        {
+                            "alertName": "low",
+                            "value": 70,
+                            "unit": "mg/dL",
+                            "snooze": 0,
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "unknown",
+                            "soundOutputMode": "sound"
+                        },
+                        {
+                            "alertName": "noReadings",
+                            "value": 20,
+                            "unit": "minutes",
+                            "enabled": false,
+                            "systemTime": "2024-06-25T22:50:15.800Z",
+                            "displayTime": "2024-06-25T15:50:15.800-07:00",
+                            "secondaryTriggerCondition": 15,
+                            "soundTheme": "classic",
+                            "soundOutputMode": "sound"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
