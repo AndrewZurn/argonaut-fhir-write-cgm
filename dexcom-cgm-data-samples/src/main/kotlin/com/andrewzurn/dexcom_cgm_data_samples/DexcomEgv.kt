@@ -3,6 +3,10 @@ package com.andrewzurn.dexcom_cgm_data_samples
 import com.fasterxml.jackson.annotation.JsonValue
 import java.time.OffsetDateTime
 
+/*
+ * Classes created from publicly documented information on developer.dexcom.com (particularlly the EGV documentation
+ * that can be found here: https://developer.dexcom.com/docs/dexcomv3/operation/getEstimatedGlucoseValuesV3).
+ */
 data class DexcomEgvWrapper(
     val recordType: String, val recordVersion: String, val userId: String, val records: List<DexcomEgv>
 )

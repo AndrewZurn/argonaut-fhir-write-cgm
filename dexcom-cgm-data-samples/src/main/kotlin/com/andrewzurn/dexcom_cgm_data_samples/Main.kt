@@ -21,6 +21,11 @@ import java.math.BigDecimal
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+/*
+ * Access Dexcom's Sandbox API, get some EGVs for a simulated patient using G7, and convert the EGVs
+ * to simple FHIR Observation data types following the HL7 Argonaut's Working Groups WIP Implementation Guide found
+ * here: https://github.com/hl7/cgm
+ */
 fun main() {
     // gather our components
     val client = HttpClient.newBuilder().build()
