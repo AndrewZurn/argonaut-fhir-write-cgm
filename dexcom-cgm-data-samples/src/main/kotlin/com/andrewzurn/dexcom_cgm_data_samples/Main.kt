@@ -14,8 +14,13 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.apache.commons.io.FileUtils
 import org.hl7.fhir.instance.model.api.IBaseBundle
+import org.hl7.fhir.r4.model.CanonicalType
+import org.hl7.fhir.r4.model.CodeableConcept
+import org.hl7.fhir.r4.model.Coding
 import org.hl7.fhir.r4.model.DateTimeType
+import org.hl7.fhir.r4.model.Meta
 import org.hl7.fhir.r4.model.Observation
+import org.hl7.fhir.r4.model.Reference
 import org.hl7.fhir.r4.model.SimpleQuantity
 import java.math.BigDecimal
 import java.net.URLEncoder
@@ -58,7 +63,7 @@ private fun getSandboxEgvs(token: TokenResponse, client: HttpClient, jsonObjectM
     val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
     val egvWrapper = if (response.statusCode() == 200) {
-        println("Successfully fetch egvs.")
+        println("Successfully fetched egvs.")
         jsonObjectMapper.readValue<DexcomEgvWrapper>(response.body())
     } else {
         throw RuntimeException("Failed to fetch token, unexpected response status code: ${response.statusCode()}.")
@@ -103,16 +108,47 @@ private fun getObjectMapper(): ObjectMapper {
 
 private fun convertToObservations(egvWrapper: DexcomEgvWrapper, fhirContext: FhirContext): IBaseBundle {
     val builder = BundleBuilder(fhirContext)
+    val observationMeta = Meta().apply {
+        profile = listOf(
+            CanonicalType().apply {
+                value = "http://hl7.org/uv/cgm/StructureDefinition/cgm-sensor-reading-mass-per-volume"
+            }
+        )
+    }
+    val observationCategory = listOf(
+        CodeableConcept(
+            Coding().apply {
+                system = "http://terminology.hl7.org/CodeSystem/observation-category"
+                code = "laboratory"
+                display = "laboratory"
+            }
+        )
+    )
+    val observationCode = CodeableConcept(
+        Coding().apply {
+            system = "http://loinc.org"
+            code = "99504-3"
+            display = "Glucose (Interstitial fluid) [Mass/Vol]"
+        }
+    )
+    val observationReference = Reference(egvWrapper.userId)
+    val observationValueUnit = "mg/dL"
+    val observationValueSystem = "http://unitsofmeasure.org"
+    val observationValueCode = "mg/dL"
     egvWrapper.records.map { egv ->
         val egvObservation = Observation().apply {
             id = egv.recordId
-
-            // Set the timestamp
+            status = Observation.ObservationStatus.FINAL
+            category = observationCategory
+            code = observationCode
+            meta = observationMeta
+            subject = observationReference
             effective = DateTimeType(egv.systemTime.toString())
-
-            // Set the value as SimpleQuantity
             value = SimpleQuantity().apply {
                 value = BigDecimal.valueOf(egv.value.toLong())
+                unit = observationValueUnit
+                system = observationValueSystem
+                code = observationValueCode
             }
         }
         builder.addCollectionEntry(egvObservation)

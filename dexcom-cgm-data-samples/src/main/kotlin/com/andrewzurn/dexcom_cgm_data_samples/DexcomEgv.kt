@@ -8,7 +8,10 @@ import java.time.OffsetDateTime
  * that can be found here: https://developer.dexcom.com/docs/dexcomv3/operation/getEstimatedGlucoseValuesV3).
  */
 data class DexcomEgvWrapper(
-    val recordType: String, val recordVersion: String, val userId: String, val records: List<DexcomEgv>
+    val recordType: String,
+    val recordVersion: String,
+    val userId: String,
+    val records: List<DexcomEgv>
 )
 
 data class DexcomEgv(
