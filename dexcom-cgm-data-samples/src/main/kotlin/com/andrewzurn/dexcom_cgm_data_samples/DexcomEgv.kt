@@ -1,5 +1,6 @@
 package com.andrewzurn.dexcom_cgm_data_samples
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonValue
 import java.time.OffsetDateTime
 
@@ -27,6 +28,7 @@ data class DexcomEgv(
     val transmitterId: String,
     val transmitterTicks: String
 ) {
+    @JsonIgnore
     val device = DexcomDevice(transmitterId, transmitterGeneration, displayDevice)
 }
 

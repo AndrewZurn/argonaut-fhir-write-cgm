@@ -115,13 +115,20 @@ private fun getObjectMapper(): ObjectMapper {
 
 private fun convertToObservations(egvWrapper: DexcomEgvWrapper, fhirContext: FhirContext): IBaseBundle {
     val builder = BundleBuilder(fhirContext)
-    val observationMeta = Meta().apply {
-        profile = listOf(
-            CanonicalType().apply {
-                value = "http://hl7.org/uv/cgm/StructureDefinition/cgm-sensor-reading-mass-per-volume"
-            }
-        )
-    }
+    val idPrefix = "https://sandbox-api.dexcom.com/Observation"
+    builder.setMetaField("tag",
+        Coding().apply {
+            system = "http://hl7.org/uv/cgm/CodeSystem/cgm"
+            code = "cgm-data-submission-bundle"
+        })
+    // val observationMeta = Meta().apply {
+    //     profile = listOf(
+    //         CanonicalType().apply {
+    //             value = "http://hl7.org/uv/cgm/StructureDefinition/cgm-sensor-reading-mass-per-volume"
+    //         }
+    //     )
+    // }
+
     val observationCategory = listOf(
         CodeableConcept(
             Coding().apply {
@@ -135,7 +142,7 @@ private fun convertToObservations(egvWrapper: DexcomEgvWrapper, fhirContext: Fhi
         Coding().apply {
             system = "http://loinc.org"
             code = "99504-3"
-            display = "Glucose (Interstitial fluid) [Mass/Vol]"
+            display = "Glucose [Mass/volume] in Interstitial fluid"
         }
     )
     val observationReference = Reference(IdType("Patient", egvWrapper.userId))
@@ -144,11 +151,11 @@ private fun convertToObservations(egvWrapper: DexcomEgvWrapper, fhirContext: Fhi
     val observationValueCode = "mg/dL"
     egvWrapper.records.map { egv ->
         val egvObservation = Observation().apply {
-            id = egv.recordId
+            id = "$idPrefix/${egv.recordId}"
             status = Observation.ObservationStatus.FINAL
             category = observationCategory
             code = observationCode
-            meta = observationMeta
+            // meta = observationMeta
             subject = observationReference
             effective = DateTimeType(egv.systemTime.toString())
             value = SimpleQuantity().apply {
@@ -168,26 +175,28 @@ private fun convertToObservations(egvWrapper: DexcomEgvWrapper, fhirContext: Fhi
 }
 
 private fun addDevices(builder: BundleBuilder, egvWrapper: DexcomEgvWrapper) {
-    val deviceMeta = Meta().apply {
-        profile = listOf(
-            CanonicalType().apply {
-                value = "http://hl7.org/uv/cgm/StructureDefinition/cgm-device"
-            }
-        )
-    }
+    val idPrefix = "https://sandbox-api.dexcom.com/Device"
+    // val deviceMeta = Meta().apply {
+    //     profile = listOf(
+    //         CanonicalType().apply {
+    //             value = "http://hl7.org/uv/cgm/StructureDefinition/cgm-device"
+    //         }
+    //     )
+    // }
 
     egvWrapper.records
         .map { it.device }
         .distinct()
         .map { dexcomDevice ->
             val device = Device().apply {
+                id = "$idPrefix/${dexcomDevice.transmitterId}"
                 identifier = listOf(
                     Identifier().apply {
                         system = "http://dexcom.com"
                         value = dexcomDevice.transmitterId
                     }
                 )
-                meta = deviceMeta
+                // meta = deviceMeta
                 serialNumber = dexcomDevice.transmitterId
                 deviceName = listOf(
                     Device.DeviceDeviceNameComponent().apply {
