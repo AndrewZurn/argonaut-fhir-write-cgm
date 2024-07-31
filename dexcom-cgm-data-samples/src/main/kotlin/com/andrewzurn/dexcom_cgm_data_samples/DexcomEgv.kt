@@ -26,7 +26,9 @@ data class DexcomEgv(
     val transmitterGeneration: TransmitterGeneration,
     val transmitterId: String,
     val transmitterTicks: String
-)
+) {
+    val device = DexcomDevice(transmitterId, transmitterGeneration, displayDevice)
+}
 
 enum class StatusType(@JsonValue val value: String) {
     UNKNOWN("unknown"),

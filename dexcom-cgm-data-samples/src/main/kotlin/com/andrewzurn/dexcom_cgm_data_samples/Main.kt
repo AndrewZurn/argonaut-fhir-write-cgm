@@ -18,6 +18,10 @@ import org.hl7.fhir.r4.model.CanonicalType
 import org.hl7.fhir.r4.model.CodeableConcept
 import org.hl7.fhir.r4.model.Coding
 import org.hl7.fhir.r4.model.DateTimeType
+import org.hl7.fhir.r4.model.Device
+import org.hl7.fhir.r4.model.Device.DeviceNameType
+import org.hl7.fhir.r4.model.IdType
+import org.hl7.fhir.r4.model.Identifier
 import org.hl7.fhir.r4.model.Meta
 import org.hl7.fhir.r4.model.Observation
 import org.hl7.fhir.r4.model.Reference
@@ -30,6 +34,9 @@ import java.nio.charset.StandardCharsets
  * Access Dexcom's Sandbox API, get some EGVs for a simulated patient using G7, and convert the EGVs
  * to simple FHIR Observation data types following the HL7 Argonaut's Working Groups WIP Implementation Guide found
  * here: https://github.com/hl7/cgm
+ *
+ * For those attempting to run this, there are a few secrets that need to be provided as environment variables,
+ * see `getAccessToken` call below.
  */
 fun main() {
     // gather our components
@@ -41,12 +48,12 @@ fun main() {
     println("Gathering token, egvs, and writing to local files...")
     val token = getAccessToken(client, jsonObjectMapper)
     val egvWrapper = getSandboxEgvs(token, client, jsonObjectMapper)
-    val observationResource = convertToObservations(egvWrapper, fhirContext)
+    val observationResources = convertToObservations(egvWrapper, fhirContext)
 
     FileUtils.getFile("./dexcom-egvs.json")
         .writeText(jsonObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(egvWrapper))
     FileUtils.getFile("./fhir-egvs-bundle.json")
-        .writeText(parser.encodeResourceToString(observationResource))
+        .writeText(parser.encodeResourceToString(observationResources))
 
     println("Done! Wrote local files with EGV and FHIR Observation data.")
 }
@@ -131,7 +138,7 @@ private fun convertToObservations(egvWrapper: DexcomEgvWrapper, fhirContext: Fhi
             display = "Glucose (Interstitial fluid) [Mass/Vol]"
         }
     )
-    val observationReference = Reference(egvWrapper.userId)
+    val observationReference = Reference(IdType("Patient", egvWrapper.userId))
     val observationValueUnit = "mg/dL"
     val observationValueSystem = "http://unitsofmeasure.org"
     val observationValueCode = "mg/dL"
@@ -150,9 +157,46 @@ private fun convertToObservations(egvWrapper: DexcomEgvWrapper, fhirContext: Fhi
                 system = observationValueSystem
                 code = observationValueCode
             }
+            device = Reference(IdType("Device", egv.transmitterId))
         }
         builder.addCollectionEntry(egvObservation)
     }
 
+    addDevices(builder, egvWrapper)
+
     return builder.bundle
+}
+
+private fun addDevices(builder: BundleBuilder, egvWrapper: DexcomEgvWrapper) {
+    val deviceMeta = Meta().apply {
+        profile = listOf(
+            CanonicalType().apply {
+                value = "http://hl7.org/uv/cgm/StructureDefinition/cgm-device"
+            }
+        )
+    }
+
+    egvWrapper.records
+        .map { it.device }
+        .distinct()
+        .map { dexcomDevice ->
+            val device = Device().apply {
+                identifier = listOf(
+                    Identifier().apply {
+                        system = "http://dexcom.com"
+                        value = dexcomDevice.transmitterId
+                    }
+                )
+                meta = deviceMeta
+                serialNumber = dexcomDevice.transmitterId
+                deviceName = listOf(
+                    Device.DeviceDeviceNameComponent().apply {
+                        name = "Dexcom CGM - ${dexcomDevice.transmitterGeneration.value.uppercase()}"
+                        type = DeviceNameType.USERFRIENDLYNAME
+                    }
+                )
+            }
+
+            builder.addCollectionEntry(device)
+        }
 }
